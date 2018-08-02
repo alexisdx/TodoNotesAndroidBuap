@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
                     if (it.success is String){
                         tostado("${it.success}")
+                        goToNotesActivity()
                     } else {
                         tostado("Malas credenciales")
                     }

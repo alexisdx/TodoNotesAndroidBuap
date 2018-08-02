@@ -1,5 +1,6 @@
 package com.example.roeeyn.mynotesapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout.VERTICAL
 import com.google.android.material.snackbar.Snackbar
@@ -17,6 +18,11 @@ class NotesActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         setupRecyclerview()
+        fab.setOnClickListener {
+
+            startActivity(Intent(this, NewNoteActivity::class.java))
+
+        }
 
     }
 

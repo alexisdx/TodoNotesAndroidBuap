@@ -29,4 +29,14 @@ class AppApiHelper {
 
     }
 
+    fun createNote(nuevaNotaModel: Models.NuevaNotaModel, idUser:String)
+            :Single<Models.Usuario>{
+
+        return apiHelper.createNote(nuevaNotaModel, idUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+
+    }
+
 }
