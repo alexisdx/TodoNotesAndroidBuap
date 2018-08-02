@@ -1,5 +1,6 @@
 package com.example.roeeyn.mynotesapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout.VERTICAL
@@ -17,7 +18,6 @@ class NotesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notes)
         setSupportActionBar(toolbar)
 
-        setupRecyclerview()
         fab.setOnClickListener {
 
             startActivity(Intent(this, NewNoteActivity::class.java))
@@ -26,10 +26,15 @@ class NotesActivity : AppCompatActivity() {
 
     }
 
-    fun setupRecyclerview(){
+    override fun onResume() {
+        getSampleNotes()
+        super.onResume()
+    }
+
+    fun setupRecyclerview(notas:List<Note>){
 
         val layoutManager = LinearLayoutManager(this, VERTICAL, false)
-        val adapter = NotesAdapter(getSampleNotes()){
+        val adapter = NotesAdapter(notas){
 
             tostado(it.toString())
 
@@ -40,10 +45,23 @@ class NotesActivity : AppCompatActivity() {
 
     }
 
-    fun getSampleNotes():List<Note> = listOf(
-            Note("Ir a la BUAP", "Entrar a mis clases", "12-08-2018"),
-            Note("Lavar la cocina", "Que quede limpia", "12-08-2020"),
-            Note("Sacar al perro", "Que se canse", "19-08-2018")
-    )
+    fun getSampleNotes(){
+
+        val prefs = getSharedPreferences("BUAP", Context.MODE_PRIVATE)
+        val userId = prefs.getString("USER_ID", "SIN_ID")
+
+        val apiHelper = AppApiHelper()
+        apiHelper.getNotes(userId).subscribe({
+
+            val notas = it.map { Note(it.title, it.description, it.date) }
+            setupRecyclerview(notas)
+
+        }){
+
+            tostado("Me rompi")
+
+        }
+
+    }
 
 }

@@ -39,4 +39,13 @@ class AppApiHelper {
 
     }
 
+    fun getNotes(userId:String):Single<List<Models.NuevaNotaModel>>{
+
+        return apiHelper.getNotes(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+
+    }
+
 }
