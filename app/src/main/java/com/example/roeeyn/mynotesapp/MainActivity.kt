@@ -24,12 +24,31 @@ class MainActivity : AppCompatActivity() {
             val usuario = et_user.text.toString()
             val pswd = et_pswd.text.toString()
 
-            if(usuario == "admin" && pswd == "root") goToNotesActivity()
-            else tostado("No es correcto")
+            login(usuario, pswd)
 
         }
 
         btn_register.setOnClickListener { gotoRegister() }
+
+    }
+
+    private fun login(user:String, pswd:String){
+
+        val apiHelper = AppApiHelper()
+        apiHelper.login(Models.LoginModel(user, pswd))
+                .subscribe({
+
+                    if (it.success is String){
+                        tostado("${it.success}")
+                    } else {
+                        tostado("Malas credenciales")
+                    }
+
+                }){
+
+                    tostado("Me rompí ${it.message}")
+
+                }
 
     }
 

@@ -1,13 +1,22 @@
 package com.example.roeeyn.mynotesapp
 
+import io.reactivex.Single
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
 import java.util.concurrent.TimeUnit
 
 interface ApiHelper {
+
+    @POST("/user")
+    fun createUser(@Body newUser: Models.CreateUserModel):Single<Models.SuccessModel>
+
+    @POST("/login")
+    fun login(@Body loginModel: Models.LoginModel):Single<Models.SuccessModel>
 
     companion object {
         fun create(): ApiHelper {
